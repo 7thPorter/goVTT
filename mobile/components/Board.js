@@ -1,5 +1,12 @@
-import React from "react";
-import { View, StyleSheet, ScrollView, Dimensions, Image } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Dimensions,
+  Image,
+  Pressable,
+} from "react-native";
 
 //Here I'm importing the image files from the assets folder.
 const gilda = require("../assets/images/gilda.png");
@@ -10,35 +17,25 @@ const steven = require("../assets/images/steven.png");
 
 //This is REALLY hardcoded right now, but I'm going to find a solution!
 const Board = () => {
+  const [selected, setSelected] = useState(null);
   return (
     <ScrollView style={styles.scrollContainerVertical}>
       <View style={styles.container}>
-        <View style={styles.element}>
+        <View style={styles.grid}>
           <Image source={gilda} style={styles.token} />
         </View>
-        <View style={styles.element}>
-          <Image source={klaus} style={styles.token} />
-        </View>
-        {[...Array(9)].map((element) => (
-          <View style={styles.element} key={element}></View>
-        ))}
-        <View style={styles.element}>
-          <Image source={auron} style={styles.token} />
-        </View>
-        {[...Array(1)].map((element) => (
-          <View style={styles.element} key={element}></View>
-        ))}
-        <View style={styles.element}>
-          <Image source={lexa} style={styles.token} />
-        </View>
-        {[...Array(3)].map((element) => (
-          <View style={styles.element} key={element}></View>
-        ))}
-        <View style={styles.element}>
-          <Image source={steven} style={styles.token} />
-        </View>
-        {[...Array(52)].map((element) => (
-          <View style={styles.element} key={element}></View>
+        {[...Array(49)].map((element, i) => (
+          <Pressable
+            onPress={() => {
+              setSelected(null);
+              setSelected(i);
+            }}
+          >
+            <View
+              style={selected === i ? styles.selected : styles.grid}
+              key={i}
+            ></View>
+          </Pressable>
         ))}
       </View>
     </ScrollView>
@@ -56,7 +53,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
   },
-  element: {
+  grid: {
     width: Dimensions.get("window").width / 5,
     borderWidth: 1,
     borderColor: "black",
@@ -71,6 +68,16 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     width: 75,
     height: 75,
+  },
+  selected: {
+    width: Dimensions.get("window").width / 5,
+    borderWidth: 2,
+    borderColor: "yellow",
+    borderStyle: "solid",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 75,
+    backgroundColor: "transparent",
   },
 });
 
