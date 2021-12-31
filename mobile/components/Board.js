@@ -18,29 +18,46 @@ const steven = require("../assets/images/steven.png");
 //This is REALLY hardcoded right now, but I'm going to find a solution!
 const Board = () => {
   const [selected, setSelected] = useState(null);
+  const [tokenIsAt, setTokenIsAt] = useState(null);
   return (
     <ScrollView style={styles.scrollContainerVertical}>
       <View style={styles.container}>
-        <View style={styles.grid}>
-          <Image source={gilda} style={styles.token} />
-        </View>
-        {[...Array(49)].map((element, i) => (
+        {[...Array(50)].map((element, i) => (
           <Pressable
             onPress={() => {
               setSelected(null);
-              setSelected(i);
+              if (selected === i) {
+                setSelected(null);
+              } else {
+                setSelected(i);
+              }
             }}
+            onLongPress={() => {
+              setTokenIsAt(null);
+              setTokenIsAt(i);
+            }}
+            key={i}
           >
             <View
               style={selected === i ? styles.selected : styles.grid}
               key={i}
-            ></View>
+            >
+              {tokenIsAt === i ? (
+                <Image source={gilda} style={styles.token} />
+              ) : null}
+            </View>
           </Pressable>
         ))}
       </View>
     </ScrollView>
   );
 };
+
+{
+  /* <View style={styles.grid}>
+          <Image source={gilda} style={styles.token} />
+        </View> */
+}
 
 const styles = StyleSheet.create({
   scrollContainerVertical: {
@@ -71,6 +88,10 @@ const styles = StyleSheet.create({
   },
   selected: {
     width: Dimensions.get("window").width / 5,
+    shadowColor: "yellow",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.43,
+    shadowRadius: 5,
     borderWidth: 2,
     borderColor: "yellow",
     borderStyle: "solid",
