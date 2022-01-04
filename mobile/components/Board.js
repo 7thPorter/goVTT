@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -19,6 +19,16 @@ const steven = require("../assets/images/steven.png");
 const Board = () => {
   const [selected, setSelected] = useState(null);
   const [tokenIsAt, setTokenIsAt] = useState(null);
+  const [selfIsSelected, setSelfIsSelected] = useState(false);
+
+  useEffect(() => {
+    if (selected === tokenIsAt) {
+      setSelfIsSelected(true);
+    } else {
+      setSelfIsSelected(false);
+    }
+  }, [selected, tokenIsAt]);
+
   return (
     <ScrollView style={styles.scrollContainerVertical}>
       <View style={styles.container}>
@@ -26,20 +36,33 @@ const Board = () => {
           <Pressable
             onPress={() => {
               setSelected(null);
+
               if (selected === i) {
                 setSelected(null);
               } else {
                 setSelected(i);
+                console.log("This is the grid number:", i);
               }
             }}
             onLongPress={() => {
               setTokenIsAt(null);
-              setTokenIsAt(i);
+
+              if (tokenIsAt === i) {
+                setTokenIsAt(null);
+              } else {
+                setTokenIsAt(i);
+              }
             }}
             key={i}
           >
             <View
-              style={selected === i ? styles.selected : styles.grid}
+              style={
+                selfIsSelected && selected === i
+                  ? styles.self
+                  : selected === i
+                  ? styles.selected
+                  : styles.grid
+              }
               key={i}
             >
               {tokenIsAt === i ? (
@@ -88,12 +111,26 @@ const styles = StyleSheet.create({
   },
   selected: {
     width: Dimensions.get("window").width / 5,
-    shadowColor: "yellow",
+    shadowColor: "#EADC9E",
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.43,
+    shadowOpacity: 1,
     shadowRadius: 5,
     borderWidth: 2,
-    borderColor: "yellow",
+    borderColor: "#EADC9E",
+    borderStyle: "solid",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 75,
+    backgroundColor: "transparent",
+  },
+  self: {
+    width: Dimensions.get("window").width / 5,
+    shadowColor: "#8FD6F0",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    borderWidth: 2,
+    borderColor: "#8FD6F0",
     borderStyle: "solid",
     justifyContent: "center",
     alignItems: "center",
@@ -103,3 +140,8 @@ const styles = StyleSheet.create({
 });
 
 export default Board;
+
+// #8FD6F0 - Self
+// #B68CB8 - Enemy
+// #EADC9E - Neutral
+// #B0D4A3 - Friends
