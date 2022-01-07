@@ -14,7 +14,11 @@ const App = () => {
   //This block is what's being displayed on screen. Pretty straightforward.
   return (
     <SocketContext.Provider value={socket}>
-      <Swiper style={styles.wrapper} showsButtons={false}>
+      <Swiper
+        style={styles.wrapper}
+        showsButtons={false}
+        showsPagination={false}
+      >
         <View style={styles.slide1}>
           <ImageBackground source={background} style={styles.boardImage}>
             <Board />

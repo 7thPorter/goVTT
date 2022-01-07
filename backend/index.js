@@ -17,7 +17,7 @@ io.on("connection", (socket) => {
   //This should receive the emission from the CharacterSheet component and send it to the listener in the Chat component.
   socket.on("name", (name) => {
     console.log(name);
-    io.to(name.id).emit(name);
+    io.to(socket.id).emit(name);
   });
 });
 

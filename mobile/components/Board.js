@@ -6,7 +6,10 @@ import {
   Dimensions,
   Image,
   Pressable,
+  Vibration,
 } from "react-native";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faDiceD20, faFileUser } from "@fortawesome/pro-light-svg-icons";
 
 //Here I'm importing the image files from the assets folder.
 const gilda = require("../assets/images/gilda.png");
@@ -20,9 +23,10 @@ const Board = () => {
   const [selected, setSelected] = useState(null);
   const [tokenIsAt, setTokenIsAt] = useState(null);
   const [selfIsSelected, setSelfIsSelected] = useState(false);
+  const [iconPressed, setIconPressed] = useState(null);
 
   useEffect(() => {
-    if (selected === tokenIsAt) {
+    if (selected !== null && selected === tokenIsAt) {
       setSelfIsSelected(true);
     } else {
       setSelfIsSelected(false);
@@ -30,59 +34,100 @@ const Board = () => {
   }, [selected, tokenIsAt]);
 
   return (
-    <ScrollView style={styles.scrollContainerVertical}>
-      <View style={styles.container}>
-        {[...Array(50)].map((element, i) => (
-          <Pressable
-            onPress={() => {
-              setSelected(null);
-
-              if (selected === i) {
+    <View style={styles.outerMost}>
+      <ScrollView style={styles.scrollContainerVertical}>
+        <View style={styles.container}>
+          {[...Array(100)].map((element, i) => (
+            <Pressable
+              onPress={() => {
                 setSelected(null);
-              } else {
-                setSelected(i);
-                console.log("This is the grid number:", i);
-              }
-            }}
-            onLongPress={() => {
-              setTokenIsAt(null);
-
-              if (tokenIsAt === i) {
-                setTokenIsAt(null);
-              } else {
-                setTokenIsAt(i);
-              }
-            }}
-            key={i}
-          >
-            <View
-              style={
-                selfIsSelected && selected === i
-                  ? styles.self
-                  : selected === i
-                  ? styles.selected
-                  : styles.grid
-              }
+                if (selected === i) {
+                  setSelected(null);
+                } else {
+                  setSelected(i);
+                }
+              }}
+              onLongPress={() => {
+                if (tokenIsAt === i) {
+                  setTokenIsAt(null);
+                } else {
+                  setTokenIsAt(i);
+                }
+              }}
               key={i}
             >
-              {tokenIsAt === i ? (
-                <Image source={gilda} style={styles.token} />
-              ) : null}
-            </View>
+              <View
+                style={
+                  selfIsSelected && selected === i
+                    ? styles.self
+                    : selected === i
+                    ? styles.selected
+                    : styles.grid
+                }
+                key={i}
+              >
+                {tokenIsAt === i ? (
+                  <Image source={gilda} style={styles.token} />
+                ) : null}
+              </View>
+            </Pressable>
+          ))}
+        </View>
+      </ScrollView>
+      <View
+        style={
+          selfIsSelected === true
+            ? styles.contextBarSelfSelection
+            : selected !== null
+            ? styles.contextBarSelection
+            : styles.contextBarNoSelection
+        }
+      >
+        <View style={styles.contextItems}>
+          <Pressable
+            onPressIn={() => {
+              Vibration.vibrate();
+              setIconPressed("faFileUser");
+            }}
+            onPressOut={() => {
+              setIconPressed(null);
+            }}
+          >
+            <FontAwesomeIcon
+              icon={faFileUser}
+              style={
+                iconPressed === "faFileUser" ? styles.iconPressed : styles.icon
+              }
+              size={40}
+            />
           </Pressable>
-        ))}
+          <Pressable
+            onPressIn={() => {
+              Vibration.vibrate();
+              setIconPressed("faDiceD20");
+            }}
+            onPressOut={() => {
+              setIconPressed(null);
+            }}
+          >
+            <FontAwesomeIcon
+              icon={faDiceD20}
+              style={
+                iconPressed === "faDiceD20" ? styles.iconPressed : styles.icon
+              }
+              size={40}
+            />
+          </Pressable>
+        </View>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
-{
-  /* <View style={styles.grid}>
-          <Image source={gilda} style={styles.token} />
-        </View> */
-}
-
 const styles = StyleSheet.create({
+  outerMost: {
+    flex: 1,
+  },
   scrollContainerVertical: {
     marginTop: 40,
     flex: 1,
@@ -95,7 +140,7 @@ const styles = StyleSheet.create({
   },
   grid: {
     width: Dimensions.get("window").width / 5,
-    borderWidth: 1,
+    borderWidth: 0.3,
     borderColor: "black",
     borderStyle: "dotted",
     justifyContent: "center",
@@ -115,7 +160,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
     shadowRadius: 5,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: "#EADC9E",
     borderStyle: "solid",
     justifyContent: "center",
@@ -129,13 +174,78 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
     shadowRadius: 5,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: "#8FD6F0",
     borderStyle: "solid",
     justifyContent: "center",
     alignItems: "center",
     height: 75,
     backgroundColor: "transparent",
+  },
+  contextBarNoSelection: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    width: Dimensions.get("window").width - 30,
+    height: 60,
+    opacity: 0.2,
+    backgroundColor: "#000000",
+    justifyContent: "flex-end",
+    alignSelf: "center",
+    borderWidth: 0,
+    borderStyle: "solid",
+    borderRadius: 20,
+    borderColor: "#000000",
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 5,
+  },
+  contextBarSelection: {
+    width: Dimensions.get("window").width - 30,
+    height: 60,
+    opacity: 0.2,
+    backgroundColor: "#000000",
+    justifyContent: "flex-end",
+    alignSelf: "center",
+    borderWidth: 3,
+    borderStyle: "solid",
+    borderRadius: 20,
+    borderColor: "#EADC9E",
+    shadowColor: "#EADC9E",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 2,
+  },
+  contextBarSelfSelection: {
+    width: Dimensions.get("window").width - 30,
+    height: 60,
+    opacity: 0.2,
+    backgroundColor: "#000000",
+    justifyContent: "flex-end",
+    alignSelf: "center",
+    borderWidth: 3,
+    borderStyle: "solid",
+    borderRadius: 20,
+    borderColor: "#8FD6F0",
+    shadowColor: "#8FD6F0",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 2,
+  },
+  contextItems: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    fontSize: 60,
+  },
+  icon: {
+    opacity: 1,
+    color: "#FFFFFF",
+  },
+  iconPressed: {
+    opacity: 1,
+    color: "#FF0000",
   },
 });
 
@@ -145,3 +255,4 @@ export default Board;
 // #B68CB8 - Enemy
 // #EADC9E - Neutral
 // #B0D4A3 - Friends
+// #9C9B96 - Greyish
