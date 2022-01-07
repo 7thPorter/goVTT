@@ -1,4 +1,4 @@
-##### Note: goVTT is still an early-stage work in progress. It will be steadily developed over the foreseeable future.&nbsp;&nbsp;&nbsp;![Latest Commit was December 2021](https://img.shields.io/badge/Latest%20Commit-December%202021-yellowgreen?style=plastic)
+##### Note: goVTT is still an early-stage work in progress. It will be steadily developed over the foreseeable future.&nbsp;&nbsp;&nbsp;![Latest Commit was December 2021](https://img.shields.io/badge/Latest%20Commit-January%202022-yellowgreen?style=plastic)
 
 # goVTT - A mobile virtual tabletop for roleplaying games
 
