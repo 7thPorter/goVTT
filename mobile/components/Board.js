@@ -6,7 +6,6 @@ import {
   Dimensions,
   Image,
   Pressable,
-  Vibration,
 } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faDiceD20, faFileUser } from "@fortawesome/pro-light-svg-icons";
@@ -23,7 +22,6 @@ const Board = () => {
   const [selected, setSelected] = useState(null);
   const [tokenIsAt, setTokenIsAt] = useState(null);
   const [selfIsSelected, setSelfIsSelected] = useState(false);
-  const [iconPressed, setIconPressed] = useState(null);
 
   useEffect(() => {
     if (selected !== null && selected === tokenIsAt) {
@@ -84,39 +82,11 @@ const Board = () => {
         }
       >
         <View style={styles.contextItems}>
-          <Pressable
-            onPressIn={() => {
-              Vibration.vibrate();
-              setIconPressed("faFileUser");
-            }}
-            onPressOut={() => {
-              setIconPressed(null);
-            }}
-          >
-            <FontAwesomeIcon
-              icon={faFileUser}
-              style={
-                iconPressed === "faFileUser" ? styles.iconPressed : styles.icon
-              }
-              size={40}
-            />
+          <Pressable>
+            <FontAwesomeIcon icon={faFileUser} style={styles.icon} size={40} />
           </Pressable>
-          <Pressable
-            onPressIn={() => {
-              Vibration.vibrate();
-              setIconPressed("faDiceD20");
-            }}
-            onPressOut={() => {
-              setIconPressed(null);
-            }}
-          >
-            <FontAwesomeIcon
-              icon={faDiceD20}
-              style={
-                iconPressed === "faDiceD20" ? styles.iconPressed : styles.icon
-              }
-              size={40}
-            />
+          <Pressable>
+            <FontAwesomeIcon icon={faDiceD20} style={styles.icon} size={40} />
           </Pressable>
         </View>
       </View>
@@ -191,7 +161,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000",
     justifyContent: "flex-end",
     alignSelf: "center",
-    borderWidth: 0,
+    borderWidth: 3,
     borderStyle: "solid",
     borderRadius: 20,
     borderColor: "#000000",
@@ -199,6 +169,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
     shadowRadius: 5,
+    marginBottom: 15,
   },
   contextBarSelection: {
     width: Dimensions.get("window").width - 30,
@@ -215,6 +186,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
     shadowRadius: 2,
+    marginBottom: 15,
   },
   contextBarSelfSelection: {
     width: Dimensions.get("window").width - 30,
@@ -231,6 +203,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
     shadowRadius: 2,
+    marginBottom: 15,
   },
   contextItems: {
     flex: 1,
@@ -241,11 +214,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     opacity: 1,
-    color: "#FFFFFF",
-  },
-  iconPressed: {
-    opacity: 1,
-    color: "#FF0000",
+    color: "#F5EECF",
   },
 });
 
