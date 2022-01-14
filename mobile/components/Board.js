@@ -220,8 +220,22 @@ const styles = StyleSheet.create({
 
 export default Board;
 
+// Colors
 // #8FD6F0 - Self
 // #B68CB8 - Enemy
 // #EADC9E - Neutral
 // #B0D4A3 - Friends
 // #9C9B96 - Greyish
+// #F5EECF - Vaguely Yellowish
+
+//Icons
+//faFileEdit
+//faFileSignature
+//faFile
+//faMapMarkerAlt
+//faMapMarkerExclamation
+//faSwords
+//faCrosshairs
+//faBullseyeArrow
+//faTreasureChest
+//commentExclamation
