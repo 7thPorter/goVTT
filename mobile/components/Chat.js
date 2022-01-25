@@ -57,7 +57,7 @@ const Chat = () => {
 
   //This block is just what's actually being output on screen.
   return (
-    <KeyboardAvoidingView style={styles.view} behavior="padding">
+    <KeyboardAvoidingView style={styles.view} behavior="position">
       {chatMessagesMap}
       <TextInput
         style={styles.textInput}
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: "90%",
     borderWidth: 1,
-    marginBottom: 40,
+    marginBottom: 15,
     paddingLeft: 10,
     backgroundColor: "#fff",
     borderRadius: 20,
