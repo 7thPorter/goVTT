@@ -6,6 +6,8 @@ import {
   Dimensions,
   Image,
   Pressable,
+  Modal,
+  Text,
 } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faDiceD20, faFileUser } from "@fortawesome/pro-light-svg-icons";
@@ -22,6 +24,7 @@ const Board = () => {
   const [selected, setSelected] = useState(null);
   const [tokenIsAt, setTokenIsAt] = useState(null);
   const [selfIsSelected, setSelfIsSelected] = useState(false);
+  const [diceRollModal, setDiceRollModal] = useState(false);
 
   useEffect(() => {
     if (selected !== null && selected === tokenIsAt) {
@@ -33,6 +36,20 @@ const Board = () => {
 
   return (
     <View style={styles.outerMost}>
+      <Modal
+        animationType={"slide"}
+        visible={diceRollModal}
+        onRequestClose={() => setDiceRollModal(!diceRollModal)}
+        transparent={true}
+      >
+        <View style={styles.modalCenteredView}>
+          <View style={styles.modalView}>
+            <Pressable onPress={() => setDiceRollModal(!diceRollModal)}>
+              <Text>Close the Modal</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
       <ScrollView style={styles.scrollContainerVertical}>
         <View style={styles.container}>
           {[...Array(100)].map((element, i) => (
@@ -85,7 +102,7 @@ const Board = () => {
           <Pressable>
             <FontAwesomeIcon icon={faFileUser} style={styles.icon} size={40} />
           </Pressable>
-          <Pressable>
+          <Pressable onPress={() => setDiceRollModal(true)}>
             <FontAwesomeIcon icon={faDiceD20} style={styles.icon} size={40} />
           </Pressable>
         </View>
@@ -97,6 +114,26 @@ const Board = () => {
 const styles = StyleSheet.create({
   outerMost: {
     flex: 1,
+  },
+  modalCenteredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   scrollContainerVertical: {
     marginTop: 40,

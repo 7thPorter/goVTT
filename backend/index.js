@@ -1,8 +1,16 @@
-const express = require("express");
+// import cors from "cors";
+import express from "express";
+// import { ApolloServer } from "apollo-server-express";
+
 const app = express();
-const server = require("http").createServer(app);
+const httpServer = require("http").createServer(app);
+// const apolloServer = new ApolloServer({});
 const io = require("socket.io")(server);
-port = 3000;
+
+//---------------
+//----------
+//THIS IS THE SOCKET SERVER
+const socketPort = 3000;
 
 //This block listens for connection and lets us know when someone has successfully connected.
 io.on("connection", (socket) => {
@@ -22,4 +30,29 @@ io.on("connection", (socket) => {
 });
 
 //This line has the server listening on the port, and when the connection is made, it'll tell us.
-server.listen(port, () => console.log(`Server is running on port: ${port}`));
+httpServer.listen(socketPort, () =>
+  console.log(`Socket server is listening on port: ${socketPort}`)
+);
+//----------
+//---------------
+//--------------------
+//---------------
+//----------
+//THIS IS THE APOLLO SERVER
+// app.use(cors());
+
+// apolloServer.applyMiddleware({
+//   app,
+//   path: "/graphql",
+// });
+
+// app.listen(
+//   {
+//     port: 8000,
+//   },
+//   () => {
+//     console.log("Apollo Server is listening to http://localhost:8000/graphql");
+//   }
+// );
+//----------
+//---------------
