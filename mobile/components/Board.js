@@ -9,6 +9,8 @@ import {
   Modal,
   Text,
 } from "react-native";
+
+//These are my icons. Top line is allowing me to use icons, and the second line is accessing specific icons from that library.
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faDiceD20, faFileUser } from "@fortawesome/pro-light-svg-icons";
 
@@ -19,12 +21,15 @@ const auron = require("../assets/images/auron.png");
 const lexa = require("../assets/images/lexa.png");
 const steven = require("../assets/images/steven.png");
 
-//This is REALLY hardcoded right now, but I'm going to find a solution!
 const Board = () => {
+  //With the "selected" state, I'm identifying which grid square on the map is being selected.
+  //"tokenIsAt" is set to whichever grid square the user's token is currently located at. "selfIsSelected" simply toggles true/false based on whether the token is on the same square.
   const [selected, setSelected] = useState(null);
   const [tokenIsAt, setTokenIsAt] = useState(null);
   const [selfIsSelected, setSelfIsSelected] = useState(false);
-  const [diceRollModal, setDiceRollModal] = useState(false);
+
+  //This state shows which modal is currently being displayed on screen.
+  const [modal, setModal] = useState("");
 
   useEffect(() => {
     if (selected !== null && selected === tokenIsAt) {
@@ -38,14 +43,14 @@ const Board = () => {
     <View style={styles.outerMost}>
       <Modal
         animationType={"slide"}
-        visible={diceRollModal}
-        onRequestClose={() => setDiceRollModal(!diceRollModal)}
+        visible={modal === "" ? false : true}
+        onRequestClose={() => setModal("")}
         transparent={true}
       >
         <View style={styles.modalCenteredView}>
           <View style={styles.modalView}>
-            <Pressable onPress={() => setDiceRollModal(!diceRollModal)}>
-              <Text>Close the Modal</Text>
+            <Pressable onPress={() => setModal("")}>
+              <Text>Close Me</Text>
             </Pressable>
           </View>
         </View>
@@ -102,7 +107,7 @@ const Board = () => {
           <Pressable>
             <FontAwesomeIcon icon={faFileUser} style={styles.icon} size={40} />
           </Pressable>
-          <Pressable onPress={() => setDiceRollModal(true)}>
+          <Pressable onPress={() => setModal("dieRoller")}>
             <FontAwesomeIcon icon={faDiceD20} style={styles.icon} size={40} />
           </Pressable>
         </View>
