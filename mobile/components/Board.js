@@ -8,6 +8,7 @@ import {
   Pressable,
   Modal,
   Text,
+  Button,
 } from "react-native";
 
 //These are my icons. Top line is allowing me to use icons, and the second line is accessing specific icons from that library.
@@ -49,9 +50,14 @@ const Board = () => {
       >
         <View style={styles.modalCenteredView}>
           <View style={styles.modalView}>
-            <Pressable onPress={() => setModal("")}>
-              <Text>Close Me</Text>
-            </Pressable>
+            <Text>
+              {modal === "dieRoller"
+                ? "This is a modal for rolling dice!"
+                : modal === "statSheet"
+                ? "This is a modal for looking up quick facts about your character."
+                : "This text should never be seen"}
+            </Text>
+            <Button title="Close" onPress={() => setModal("")} />
           </View>
         </View>
       </Modal>
@@ -104,7 +110,7 @@ const Board = () => {
         }
       >
         <View style={styles.contextItems}>
-          <Pressable>
+          <Pressable onPress={() => setModal("statSheet")}>
             <FontAwesomeIcon icon={faFileUser} style={styles.icon} size={40} />
           </Pressable>
           <Pressable onPress={() => setModal("dieRoller")}>
